@@ -3,23 +3,28 @@ import {
   banners,
   categories,
   cuisines,
-  restaurants,
+  menuItems,
+  newRestaurants,
 } from '@/constants/mockData';
 
 interface UiState {
   banners: typeof banners;
   categories: typeof categories;
   cuisines: typeof cuisines;
-  restaurants: typeof restaurants;
+  newRestaurants: typeof newRestaurants;
+  menuItems: typeof menuItems;
   loading: boolean;
+  selectedAddress: string;
 }
 
 const initialState: UiState = {
   banners: [],
   categories: [],
   cuisines: [],
-  restaurants: [],
+  newRestaurants: [],
+  menuItems: [],
   loading: false,
+  selectedAddress: '123 Main St, Springfield',
 };
 
 const uiSlice = createSlice({
@@ -33,11 +38,16 @@ const uiSlice = createSlice({
       state.banners = banners;
       state.categories = categories;
       state.cuisines = cuisines;
-      state.restaurants = restaurants;
+      state.newRestaurants = newRestaurants;
+      state.menuItems = menuItems;
       state.loading = false;
+    },
+    setSelectedAddress: (state, action) => {
+      state.selectedAddress = action.payload;
     },
   },
 });
 
-export const { loadDataRequest, loadDataSuccess } = uiSlice.actions;
+export const { loadDataRequest, loadDataSuccess, setSelectedAddress } =
+  uiSlice.actions;
 export default uiSlice.reducer;

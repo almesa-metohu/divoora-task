@@ -1,34 +1,40 @@
+import { BottomSheetModal } from '@gorhom/bottom-sheet';
 import { Bell, MapPin } from 'phosphor-react-native';
-import { FC } from 'react';
+import { FC, useRef } from 'react';
 import { Image, TouchableOpacity } from 'react-native';
 import Animated, {
-  Extrapolation,
   interpolate,
   useAnimatedStyle,
+  Extrapolation,
 } from 'react-native-reanimated';
-import { Text, XStack, YStack } from 'tamagui';
+import { Text, XStack, YStack, useTheme } from 'tamagui';
+import { SelectLocationBottomsheet } from './SelectLocationBottomsheet';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/src/store/store';
+import { router } from 'expo-router';
+import { routerPaths } from '@/constants/routerPaths';
 
-interface HomePageBannerProps {
-  scrollY: Animated.SharedValue<number>;
+interface Props {
+  snapped: Animated.SharedValue<number>;
 }
 
-export const HomePageBanner: FC<HomePageBannerProps> = ({ scrollY }) => {
-  const containerAnimatedStyle = useAnimatedStyle(() => ({
-    height: interpolate(
-      scrollY.value,
-      [0, 200],
-      [200, 100],
-      Extrapolation.CLAMP,
-    ),
+export const HomePageBanner: FC<Props> = ({ snapped }) => {
+  const theme = useTheme();
+  const locationBottomSheetRef = useRef<BottomSheetModal>(null);
+  const selectedAddress = useSelector(
+    (state: RootState) => state.ui.selectedAddress,
+  );
+  const containerStyle = useAnimatedStyle(() => ({
+    height: interpolate(snapped.value, [0, 1], [200, 100], Extrapolation.CLAMP),
   }));
 
-  const contentAnimatedStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(scrollY.value, [0, 120], [1, 0], Extrapolation.CLAMP),
+  const contentStyle = useAnimatedStyle(() => ({
+    opacity: interpolate(snapped.value, [0, 1], [1, 0], Extrapolation.CLAMP),
     transform: [
       {
         translateY: interpolate(
-          scrollY.value,
-          [0, 120],
+          snapped.value,
+          [0, 1],
           [0, -20],
           Extrapolation.CLAMP,
         ),
@@ -36,84 +42,91 @@ export const HomePageBanner: FC<HomePageBannerProps> = ({ scrollY }) => {
     ],
   }));
 
+  const paddingTop = interpolate(
+    snapped.value,
+    [0, 1],
+    [26, 12],
+    Extrapolation.CLAMP,
+  );
+
   return (
-    <Animated.View
-      style={[
-        {
-          backgroundColor: '#ce191b',
-          borderBottomLeftRadius: 32,
-          borderBottomRightRadius: 32,
-          paddingHorizontal: 16,
-          paddingTop: interpolate(
-            scrollY.value,
-            [0, 200],
-            [26, 12],
-            Extrapolation.CLAMP,
-          ),
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 5,
-        },
-        containerAnimatedStyle,
-      ]}
-    >
-      <XStack justifyContent="space-between" alignItems="center">
-        <TouchableOpacity activeOpacity={0.8} style={{ width: '60%' }}>
-          <XStack
-            alignItems="center"
-            backgroundColor="white"
-            borderRadius={20}
-            paddingHorizontal={12}
-            height={40}
-            gap={8}
-          >
-            <MapPin size={20} color="red" />
-            <Text
-              fontWeight="500"
-              fontSize={14}
-              color="black"
-              numberOfLines={1}
-              flex={1}
-              ellipsizeMode="tail"
-            >
-              123 Main St, Springfield
-            </Text>
-          </XStack>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={{
-            backgroundColor: 'white',
-            padding: 10,
-            borderRadius: 100,
-          }}
-        >
-          <Bell color="red" weight="fill" size={20} />
-        </TouchableOpacity>
-      </XStack>
+    <>
       <Animated.View
-        style={[{ marginTop: 16, minHeight: 90 }, contentAnimatedStyle]}
-      >
-        <Text color="white" fontSize={22} fontWeight="700">
-          Hungry? We’ve Got{'\n'}You Covered!
-        </Text>
-
-        <Image
-          source={require('@/assets/images/banner-image.png')}
-          style={{
+        style={[
+          {
+            backgroundColor: theme.primary.val,
+            borderBottomLeftRadius: 28,
+            borderBottomRightRadius: 28,
+            paddingHorizontal: 16,
+            paddingTop,
             position: 'absolute',
+            top: 0,
+            left: 0,
             right: 0,
-            bottom: -4,
-            width: 150,
-            height: 110,
-            resizeMode: 'contain',
-            zIndex: 1,
-            borderBottomRightRadius: 32,
-          }}
-        />
+            zIndex: 5,
+          },
+          containerStyle,
+        ]}
+      >
+        <XStack justifyContent="space-between" alignItems="center">
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={{ width: '60%' }}
+            onPress={() => locationBottomSheetRef.current?.present()}
+          >
+            <XStack
+              alignItems="center"
+              backgroundColor={theme.background.val}
+              borderRadius={20}
+              paddingHorizontal={12}
+              height={40}
+              gap={8}
+            >
+              <MapPin size={20} color={theme.primary.val} weight="fill" />
+              <Text
+                fontWeight="500"
+                fontSize={14}
+                color="$color"
+                numberOfLines={1}
+                flex={1}
+                ellipsizeMode="tail"
+              >
+                {selectedAddress}
+              </Text>
+            </XStack>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              backgroundColor: theme.background.val,
+              padding: 10,
+              borderRadius: 100,
+            }}
+            onPress={() => router.push(routerPaths.notifications)}
+          >
+            <Bell color={theme.primary.val} weight="fill" size={20} />
+          </TouchableOpacity>
+        </XStack>
+
+        <Animated.View style={[{ marginTop: 16, minHeight: 90 }, contentStyle]}>
+          <Text color="$headerColor" fontSize={22} fontWeight="700" width="60%">
+            Hungry? We’ve Got You Covered!
+          </Text>
+          <Image
+            source={require('@/assets/images/banner-image.png')}
+            style={{
+              position: 'absolute',
+              right: 0,
+              bottom: -4,
+              width: 150,
+              height: 110,
+              resizeMode: 'contain',
+              zIndex: 1,
+              borderBottomRightRadius: 32,
+            }}
+          />
+        </Animated.View>
       </Animated.View>
-    </Animated.View>
+      <SelectLocationBottomsheet ref={locationBottomSheetRef} />
+    </>
   );
 };

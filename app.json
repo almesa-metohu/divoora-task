@@ -1,25 +1,25 @@
 {
   "expo": {
-    "name": "divoora-task",
+    "name": "Divoora",
     "slug": "divoora-task",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/icons/divoora-icon.png",
     "scheme": "divooratask",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#C62828",
+      "image": "./assets/icons/divoora-icon.png",
+      "resizeMode": "cover"
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/icons/divoora-icon.png",
+        "backgroundColor": "#C62828"
       },
       "edgeToEdgeEnabled": true
     },

@@ -4,18 +4,19 @@ import { createTamagui, createTokens } from 'tamagui';
 
 export const tokens = createTokens({
   color: {
-    primary: '#E80725',
+    primary: '#ce191b',
     primaryHover: '#C0051E',
-
     background: '#FFFFFF',
     backgroundSubtle: '#F7F7F8',
     text: '#000000',
     textSoft: '#666666',
     border: '#E0E0E0',
+    headerText: '#F7F7F8',
 
     backgroundDark: '#121212',
     backgroundSubtleDark: '#1E1E1E',
     textDark: '#FFFFFF',
+    headerDarkText: '#1E1E1E',
     textSoftDark: '#CCCCCC',
     borderDark: '#333333',
   },
@@ -81,6 +82,7 @@ export const themes = {
     primary: tokens.color.primary,
     primaryHover: tokens.color.primaryHover,
     borderColor: tokens.color.border,
+    headerColor: tokens.color.headerText,
   },
   dark: {
     background: tokens.color.backgroundDark,
@@ -90,6 +92,7 @@ export const themes = {
     primary: tokens.color.primary,
     primaryHover: tokens.color.primaryHover,
     borderColor: tokens.color.borderDark,
+    headerColor: tokens.color.headerDarkText,
   },
 };
 

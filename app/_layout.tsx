@@ -4,11 +4,14 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
-
-import { TamaguiProvider } from 'tamagui';
+import { Provider } from 'react-redux';
+import { TamaguiProvider, useThemeName } from 'tamagui';
 import config from '@/tamagui.config';
 import { StatusBar, useColorScheme } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { store } from '@/src/store/store';
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -16,11 +19,9 @@ export {
 } from 'expo-router';
 
 export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: '(tabs)',
 };
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -29,7 +30,6 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
   }, [error]);
@@ -40,9 +40,7 @@ export default function RootLayout() {
     }
   }, [loaded]);
 
-  if (!loaded) {
-    return null;
-  }
+  if (!loaded) return null;
 
   return <RootLayoutNav />;
 }
@@ -51,15 +49,29 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <SafeAreaView
-      style={{ flex: 1, backgroundColor: '#ce191b' }}
-      edges={['top']}
-    >
-      <TamaguiProvider config={config} defaultTheme={colorScheme ?? 'light'}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        </Stack>
-      </TamaguiProvider>
-    </SafeAreaView>
+    <TamaguiProvider config={config} defaultTheme={colorScheme ?? 'light'}>
+      <Provider store={store}>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <BottomSheetModalProvider>
+            <StatusBar
+              barStyle={
+                colorScheme === 'dark' ? 'dark-content' : 'light-content'
+              }
+              backgroundColor="transparent"
+              translucent
+            />
+            <SafeAreaView
+              style={{ flex: 1, backgroundColor: '#ce191b' }}
+              edges={['top']}
+            >
+              <Stack screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="(tabs)" />
+                <Stack.Screen name="(private)" />
+              </Stack>
+            </SafeAreaView>
+          </BottomSheetModalProvider>
+        </GestureHandlerRootView>
+      </Provider>
+    </TamaguiProvider>
   );
 }

@@ -27551,7 +27551,7 @@
         "backgroundSubtle": "#F7F7F8",
         "color": "#000000",
         "colorSoft": "#666666",
-        "primary": "#E80725",
+        "primary": "#ce191b",
         "primaryHover": "#C0051E",
         "borderColor": "#E0E0E0",
         "id": "light"
@@ -27561,7 +27561,7 @@
         "backgroundSubtle": "#1E1E1E",
         "color": "#FFFFFF",
         "colorSoft": "#CCCCCC",
-        "primary": "#E80725",
+        "primary": "#ce191b",
         "primaryHover": "#C0051E",
         "borderColor": "#333333",
         "id": "dark"
@@ -27573,7 +27573,7 @@
           "isVar": true,
           "key": "$primary",
           "name": "c-primary",
-          "val": "#E80725",
+          "val": "#ce191b",
           "variable": ""
         },
         "primaryHover": {
@@ -28000,7 +28000,7 @@
         "isVar": true,
         "key": "$primary",
         "name": "c-primary",
-        "val": "#E80725",
+        "val": "#ce191b",
         "variable": ""
       },
       "$color.primaryHover": {
