@@ -13,13 +13,13 @@ export const banners: Banner[] = [
   },
   {
     id: 'b2',
-    imageUrl: 'https://via.placeholder.com/800x300?text=New+in+Town',
-    title: 'Try Wilma’s Pizza',
+    imageUrl: 'https://via.placeholder.com/800x300?text=Try+Wilma%27s+Pizza',
+    title: "Try Wilma's Pizza",
     subtitle: 'Authentic wood-fired pies',
   },
   {
     id: 'b3',
-    imageUrl: 'https://via.placeholder.com/800x300?text=Healthy+Eats',
+    imageUrl: 'https://via.placeholder.com/800x300?text=Maui+Poke+Bowls',
     title: 'Maui Poke Bowls',
     subtitle: 'Fresh & tasty',
   },
@@ -43,10 +43,27 @@ export interface Category {
   icon: string;
 }
 export const categories: Category[] = [
-  { id: 'c1', title: 'All', icon: '🍽️' },
-  { id: 'c2', title: 'Burgers', icon: '🍔' },
-  { id: 'c3', title: 'Pizza', icon: '🍕' },
-  { id: 'c4', title: 'Salads', icon: '🥗' },
+  { id: 'c1', title: 'Near Me', icon: '📍' },
+  { id: 'c2', title: 'Big Promo', icon: '🏷️' },
+  { id: 'c3', title: 'Best Seller', icon: '⭐' },
+  { id: 'c4', title: 'Budget Meal', icon: '💰' },
+  { id: 'c5', title: 'Healthy Food', icon: '🥗' },
+  { id: 'c6', title: 'Open 24 Hours', icon: '🕑' },
+  { id: 'c7', title: 'Popular', icon: '🔥' },
+  { id: 'c8', title: 'More', icon: '⋯' },
+];
+
+export interface Cuisine {
+  id: string;
+  title: string;
+  icon: string;
+}
+export const cuisines: Cuisine[] = [
+  { id: 'cusine1', title: 'Chicken', icon: '🍗' },
+  { id: 'cusine2', title: 'Burger', icon: '🍔' },
+  { id: 'cusine3', title: 'Pizza', icon: '🍕' },
+  { id: 'cusine4', title: 'Bakery', icon: '🥐' },
+  { id: 'cusine5', title: 'Salad', icon: '🥗' },
 ];
 
 export interface Restaurant {
@@ -88,8 +105,8 @@ export const restaurants: Restaurant[] = [
   },
   {
     id: 'r4',
-    name: 'Wilma’s Pizza',
-    logoUrl: 'https://via.placeholder.com/120?text=Wilma’s',
+    name: "Wilma's Pizza",
+    logoUrl: 'https://via.placeholder.com/120?text=Wilma%27s',
     rating: 4.5,
     deliveryTime: 35,
     minOrder: 10,
