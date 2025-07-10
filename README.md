@@ -49,7 +49,6 @@ src/
 
 ```bash
 git clone
-cd divoora-homepage-redesign
 npm install
 npm start
 ```
